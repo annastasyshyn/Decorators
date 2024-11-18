@@ -1,28 +1,27 @@
 package document;
 
 import ua.edu.ucu.apps.document.TimedDocument;
+import ua.edu.ucu.apps.document.MockedDocument;
 import ua.edu.ucu.apps.document.Document;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
 class TestTimedDocument {
-    private Document doc;
 
-    @BeforeEach
-    void setUp() {
-        doc = new TimedDocument(new Document() {
-            @Override
-            public String parse(String path) {
-                return "";
-            }
-        });
+    @Test
+    void TestTimed() {
+        MockedDocument mocked = new MockedDocument();
+        Document doc = new TimedDocument(mocked);
+        Assertions.assertEquals(doc.parse(""), "Parse");
     }
 
     @Test
-    void testParse() {
-        String result = doc.parse("src/test/resources/image_test.jpg");
-        Assertions.assertEquals("", result);
+    void TestTimeMeasure() {
+        MockedDocument mocked = new MockedDocument();
+        Document doc = new TimedDocument(mocked);
+        long start = System.currentTimeMillis();
+        doc.parse("");
+        long end = System.currentTimeMillis();
+        Assertions.assertTrue(end - start > 1000);
     }
-    
 }
